@@ -1,6 +1,7 @@
 %{
 
 #include <stdio.h>
+int yylex();
 
 long VARS[26];
 
@@ -25,8 +26,8 @@ lines:
      | lines line
      ;
 
-line : expr ';' '\n'        { printf("%d\n", $1); }
-     | expr ';'             { printf("%d\n", $1); } 
+line : expr ';' '\n'        { printf("%li\n", $1); }
+     | expr ';'             { printf("%li\n", $1); } 
      ;
 expr : VAR                  { $$ = VALUE($1); }
      | NUM                  { $$ = $1; }
@@ -55,3 +56,4 @@ expr : VAR                  { $$ = VALUE($1); }
      | VAR '^' '=' expr     { $$ = VALUE($1) ^= $4; }
      | VAR '|' '=' expr     { $$ = VALUE($1) |= $4; }
      ;
+

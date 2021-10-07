@@ -1,5 +1,5 @@
 cexpr: y.tab.c lex.yy.c
-	gcc -g -o cexpr lex.yy.c y.tab.c -Ll
+	gcc -g -o cexpr y.tab.c lex.yy.c -ll
 
 y.tab.c: cexpr.y
 	yacc -d cexpr.y
