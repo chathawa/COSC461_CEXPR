@@ -18,7 +18,9 @@
 #define YYPURE 0
 
 #line 2 "cexpr.y"
-
+/**
+Created by Clark Hathaway for COSC 461 Compilers, Fall 2021
+*/
 #include <stdio.h>
 #include <string.h>
 
@@ -33,14 +35,14 @@ int ERROR = 0;
 #endif
 #ifndef YYSTYPE_IS_DECLARED
 #define YYSTYPE_IS_DECLARED 1
-#line 13 "cexpr.y"
+#line 15 "cexpr.y"
 typedef union {
 	char  var;
 	int   num;
   char *str;
 } YYSTYPE;
 #endif /* !YYSTYPE_IS_DECLARED */
-#line 44 "y.tab.c"
+#line 46 "y.tab.c"
 
 /* compatibility with bison */
 #ifdef YYPARSE_PARAM
@@ -508,7 +510,7 @@ typedef struct {
 } YYSTACKDATA;
 /* variables for the parser stack */
 static YYSTACKDATA yystack;
-#line 145 "cexpr.y"
+#line 147 "cexpr.y"
 
 int mult(int a, int b) {
   long result = (long) a * (long) b;
@@ -556,7 +558,7 @@ int yyerror(const char *s) {
   fprintf(stderr, "%s\n", s);
 }
 
-#line 560 "y.tab.c"
+#line 562 "y.tab.c"
 
 #if YYDEBUG
 #include <stdio.h>	/* needed for printf */
@@ -756,122 +758,122 @@ yyreduce:
     switch (yyn)
     {
 case 1:
-#line 38 "cexpr.y"
+#line 40 "cexpr.y"
 	{if (!ERROR) printf("%d\n", yystack.l_mark[-1].num); else ERROR = 0;}
 break;
 case 2:
-#line 39 "cexpr.y"
+#line 41 "cexpr.y"
 	{if (!ERROR) printf("%d\n", yystack.l_mark[-1].num); else ERROR = 0;}
 break;
 case 3:
-#line 40 "cexpr.y"
+#line 42 "cexpr.y"
 	{dump(); }
 break;
 case 4:
-#line 41 "cexpr.y"
+#line 43 "cexpr.y"
 	{clear();}
 break;
 case 14:
-#line 52 "cexpr.y"
+#line 54 "cexpr.y"
 	{yyval.num = VALUE(yystack.l_mark[-2].var) =   yystack.l_mark[0].num;               }
 break;
 case 15:
-#line 53 "cexpr.y"
+#line 55 "cexpr.y"
 	{yyval.num = VALUE(yystack.l_mark[-2].var) +=  yystack.l_mark[0].num;               }
 break;
 case 16:
-#line 54 "cexpr.y"
+#line 56 "cexpr.y"
 	{yyval.num = VALUE(yystack.l_mark[-2].var) -=  yystack.l_mark[0].num;               }
 break;
 case 17:
-#line 55 "cexpr.y"
+#line 57 "cexpr.y"
 	{yyval.num = VALUE(yystack.l_mark[-2].var) = mult(VALUE(yystack.l_mark[-2].var), yystack.l_mark[0].num);}
 break;
 case 18:
-#line 56 "cexpr.y"
+#line 58 "cexpr.y"
 	{yyval.num = VALUE(yystack.l_mark[-2].var) = idiv(VALUE(yystack.l_mark[-2].var), yystack.l_mark[0].num);}
 break;
 case 19:
-#line 57 "cexpr.y"
+#line 59 "cexpr.y"
 	{yyval.num = VALUE(yystack.l_mark[-2].var) %=  yystack.l_mark[0].num;               }
 break;
 case 20:
-#line 58 "cexpr.y"
+#line 60 "cexpr.y"
 	{yyval.num = VALUE(yystack.l_mark[-2].var) &=  yystack.l_mark[0].num;               }
 break;
 case 21:
-#line 59 "cexpr.y"
+#line 61 "cexpr.y"
 	{yyval.num = VALUE(yystack.l_mark[-2].var) ^=  yystack.l_mark[0].num;               }
 break;
 case 22:
-#line 60 "cexpr.y"
+#line 62 "cexpr.y"
 	{yyval.num = VALUE(yystack.l_mark[-2].var) |=  yystack.l_mark[0].num;               }
 break;
 case 23:
-#line 61 "cexpr.y"
+#line 63 "cexpr.y"
 	{yyval.num = VALUE(yystack.l_mark[-2].var) <<= yystack.l_mark[0].num;               }
 break;
 case 24:
-#line 62 "cexpr.y"
+#line 64 "cexpr.y"
 	{yyval.num = VALUE(yystack.l_mark[-2].var) >>= yystack.l_mark[0].num;               }
 break;
 case 35:
-#line 74 "cexpr.y"
+#line 76 "cexpr.y"
 	{yyval.num = yystack.l_mark[-2].num | yystack.l_mark[0].num;  }
 break;
 case 45:
-#line 85 "cexpr.y"
+#line 87 "cexpr.y"
 	{yyval.num = yystack.l_mark[-2].num ^ yystack.l_mark[0].num;  }
 break;
 case 54:
-#line 95 "cexpr.y"
+#line 97 "cexpr.y"
 	{yyval.num = yystack.l_mark[-2].num & yystack.l_mark[0].num;  }
 break;
 case 62:
-#line 104 "cexpr.y"
+#line 106 "cexpr.y"
 	{yyval.num = yystack.l_mark[-2].num << yystack.l_mark[0].num; }
 break;
 case 63:
-#line 105 "cexpr.y"
+#line 107 "cexpr.y"
 	{yyval.num = yystack.l_mark[-2].num >> yystack.l_mark[0].num; }
 break;
 case 70:
-#line 113 "cexpr.y"
+#line 115 "cexpr.y"
 	{yyval.num = yystack.l_mark[-2].num + yystack.l_mark[0].num; }
 break;
 case 71:
-#line 114 "cexpr.y"
+#line 116 "cexpr.y"
 	{yyval.num = yystack.l_mark[-2].num - yystack.l_mark[0].num; }
 break;
 case 77:
-#line 121 "cexpr.y"
+#line 123 "cexpr.y"
 	{yyval.num = mult(yystack.l_mark[-2].num, yystack.l_mark[0].num);}
 break;
 case 78:
-#line 122 "cexpr.y"
+#line 124 "cexpr.y"
 	{yyval.num = idiv(yystack.l_mark[-2].num, yystack.l_mark[0].num);}
 break;
 case 79:
-#line 123 "cexpr.y"
+#line 125 "cexpr.y"
 	{yyval.num = yystack.l_mark[-2].num % yystack.l_mark[0].num;    }
 break;
 case 84:
-#line 129 "cexpr.y"
+#line 131 "cexpr.y"
 	{yyval.num = -yystack.l_mark[0].num;}
 break;
 case 88:
-#line 134 "cexpr.y"
+#line 136 "cexpr.y"
 	{yyval.num = ~yystack.l_mark[0].num;}
 break;
 case 91:
-#line 138 "cexpr.y"
+#line 140 "cexpr.y"
 	{yyval.num = yystack.l_mark[-1].num;}
 break;
 case 94:
-#line 142 "cexpr.y"
+#line 144 "cexpr.y"
 	{yyval.num = VALUE(yystack.l_mark[0].var);}
 break;
-#line 875 "y.tab.c"
+#line 877 "y.tab.c"
     }
     yystack.s_mark -= yym;
     yystate = *yystack.s_mark;

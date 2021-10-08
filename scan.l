@@ -1,4 +1,7 @@
 %{
+  /**
+  Created by Clark Hathaway for COSC 461 Compilers, Fall 2021
+  */
 	#include <stdlib.h>
 	#include "y.tab.h"
 %}

@@ -1,5 +1,7 @@
 %{
-
+/**
+Created by Clark Hathaway for COSC 461 Compilers, Fall 2021
+*/
 #include <stdio.h>
 #include <string.h>
 
