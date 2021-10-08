@@ -35,7 +35,7 @@
 #define YYSTYPE_IS_DECLARED 1
 typedef union {
 	char  var;
-	long  num;
+	int   num;
   char *str;
 } YYSTYPE;
 #endif /* !YYSTYPE_IS_DECLARED */

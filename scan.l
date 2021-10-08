@@ -1,10 +1,6 @@
 %{
 	#include <stdlib.h>
 	#include "y.tab.h"
-
-  int VERBOSE;
-  #define PRINT_TEXT if (VERBOSE) printf(yytext);
-  #define TOKEN(x) PRINT_TEXT return(x);
 %}
 
 
@@ -17,50 +13,42 @@ number   {digit}+
 
 %%
 
-{ws}	      {PRINT_TEXT}
-";"         {TOKEN(TERM)}
+{ws}	      {}
+";"         {return(TERM);}
 
-"("         {TOKEN(LPAREN)}
-")"         {TOKEN(RPAREN)}
+"("         {return(LPAREN);}
+")"         {return(RPAREN);}
 
-"+"         {TOKEN(ADD)}
-"-"         {TOKEN(SUB)}
-"*"         {TOKEN(MULT)}
-"/"         {TOKEN(DIV)}
-"%"         {TOKEN(REM)}
+"+"         {return(ADD);}
+"-"         {return(SUB);}
+"*"         {return(MULT);}
+"/"         {return(DIV);}
+"%"         {return(REM);}
 
-"~"         {TOKEN(NOT)}
-"<<"        {TOKEN(LS)}
-">>"        {TOKEN(RS)}
-"&"         {TOKEN(AND)}
-"^"         {TOKEN(XOR)}
-"|"         {TOKEN(OR)}
+"~"         {return(NOT);}
+"<<"        {return(LS);}
+">>"        {return(RS);}
+"&"         {return(AND);}
+"^"         {return(XOR);}
+"|"         {return(OR);}
 
-"="         {TOKEN(ASN)}
-"+="        {TOKEN(INC)}
-"-="        {TOKEN(DEC)}
-"*="        {TOKEN(MULTASN)}
-"/="        {TOKEN(DIVASN)}
-"%="        {TOKEN(REMASN)}
+"="         {return(ASN);}
+"+="        {return(INC);}
+"-="        {return(DEC);}
+"*="        {return(MULTASN);}
+"/="        {return(DIVASN);}
+"%="        {return(REMASN);}
 
-"<<="       {TOKEN(LSASN)}
-">>="       {TOKEN(RSASN)}
-"&="        {TOKEN(ANDASN)}
-"^="        {TOKEN(XORASN)}
-"|="        {TOKEN(ORASN)}
+"<<="       {return(LSASN);}
+">>="       {return(RSASN);}
+"&="        {return(ANDASN);}
+"^="        {return(XORASN);}
+"|="        {return(ORASN);}
 
-"dump"      {TOKEN(DUMP)}
-"clear"     {TOKEN(CLEAR)}
+"dump"      {return(DUMP);}
+"clear"     {return(CLEAR);}
 
-{variable} {
-  PRINT_TEXT
-	yylval.var = yytext[0];
-	return(VAR);
-}
+{variable} {yylval.var = yytext[0]; return(VAR);}
 
-{number}   {
-  PRINT_TEXT
-	yylval.num = strtol(yytext, NULL, 10);
-	return(NUM);
-}
+{number}   {yylval.num = strtol(yytext, NULL, 10); return(NUM);}
 

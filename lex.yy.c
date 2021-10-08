@@ -477,12 +477,8 @@ char *yytext;
 #line 2 "scan.l"
 	#include <stdlib.h>
 	#include "y.tab.h"
-
-  int VERBOSE;
-  #define PRINT_TEXT if (VERBOSE) printf(yytext);
-  #define TOKEN(x) PRINT_TEXT return(x);
 /* regular definitions */
-#line 486 "lex.yy.c"
+#line 482 "lex.yy.c"
 
 #define INITIAL 0
 
@@ -700,10 +696,10 @@ YY_DECL
 		}
 
 	{
-#line 18 "scan.l"
+#line 14 "scan.l"
 
 
-#line 707 "lex.yy.c"
+#line 703 "lex.yy.c"
 
 	while ( /*CONSTCOND*/1 )		/* loops until end-of-file is reached */
 		{
@@ -763,168 +759,160 @@ do_action:	/* This label is used only to access EOF actions. */
 case 1:
 /* rule 1 can match eol */
 YY_RULE_SETUP
-#line 20 "scan.l"
-{PRINT_TEXT}
+#line 16 "scan.l"
+{}
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
-#line 21 "scan.l"
-{TOKEN(TERM)}
+#line 17 "scan.l"
+{return(TERM);}
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
-#line 23 "scan.l"
-{TOKEN(LPAREN)}
+#line 19 "scan.l"
+{return(LPAREN);}
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
-#line 24 "scan.l"
-{TOKEN(RPAREN)}
+#line 20 "scan.l"
+{return(RPAREN);}
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
-#line 26 "scan.l"
-{TOKEN(ADD)}
+#line 22 "scan.l"
+{return(ADD);}
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
-#line 27 "scan.l"
-{TOKEN(SUB)}
+#line 23 "scan.l"
+{return(SUB);}
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
-#line 28 "scan.l"
-{TOKEN(MULT)}
+#line 24 "scan.l"
+{return(MULT);}
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
-#line 29 "scan.l"
-{TOKEN(DIV)}
+#line 25 "scan.l"
+{return(DIV);}
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
-#line 30 "scan.l"
-{TOKEN(REM)}
+#line 26 "scan.l"
+{return(REM);}
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
-#line 32 "scan.l"
-{TOKEN(NOT)}
+#line 28 "scan.l"
+{return(NOT);}
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
-#line 33 "scan.l"
-{TOKEN(LS)}
+#line 29 "scan.l"
+{return(LS);}
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
-#line 34 "scan.l"
-{TOKEN(RS)}
+#line 30 "scan.l"
+{return(RS);}
 	YY_BREAK
 case 13:
 YY_RULE_SETUP
-#line 35 "scan.l"
-{TOKEN(AND)}
+#line 31 "scan.l"
+{return(AND);}
 	YY_BREAK
 case 14:
 YY_RULE_SETUP
-#line 36 "scan.l"
-{TOKEN(XOR)}
+#line 32 "scan.l"
+{return(XOR);}
 	YY_BREAK
 case 15:
 YY_RULE_SETUP
-#line 37 "scan.l"
-{TOKEN(OR)}
+#line 33 "scan.l"
+{return(OR);}
 	YY_BREAK
 case 16:
 YY_RULE_SETUP
-#line 39 "scan.l"
-{TOKEN(ASN)}
+#line 35 "scan.l"
+{return(ASN);}
 	YY_BREAK
 case 17:
 YY_RULE_SETUP
-#line 40 "scan.l"
-{TOKEN(INC)}
+#line 36 "scan.l"
+{return(INC);}
 	YY_BREAK
 case 18:
 YY_RULE_SETUP
-#line 41 "scan.l"
-{TOKEN(DEC)}
+#line 37 "scan.l"
+{return(DEC);}
 	YY_BREAK
 case 19:
 YY_RULE_SETUP
-#line 42 "scan.l"
-{TOKEN(MULTASN)}
+#line 38 "scan.l"
+{return(MULTASN);}
 	YY_BREAK
 case 20:
 YY_RULE_SETUP
-#line 43 "scan.l"
-{TOKEN(DIVASN)}
+#line 39 "scan.l"
+{return(DIVASN);}
 	YY_BREAK
 case 21:
 YY_RULE_SETUP
-#line 44 "scan.l"
-{TOKEN(REMASN)}
+#line 40 "scan.l"
+{return(REMASN);}
 	YY_BREAK
 case 22:
 YY_RULE_SETUP
-#line 46 "scan.l"
-{TOKEN(LSASN)}
+#line 42 "scan.l"
+{return(LSASN);}
 	YY_BREAK
 case 23:
 YY_RULE_SETUP
-#line 47 "scan.l"
-{TOKEN(RSASN)}
+#line 43 "scan.l"
+{return(RSASN);}
 	YY_BREAK
 case 24:
 YY_RULE_SETUP
-#line 48 "scan.l"
-{TOKEN(ANDASN)}
+#line 44 "scan.l"
+{return(ANDASN);}
 	YY_BREAK
 case 25:
 YY_RULE_SETUP
-#line 49 "scan.l"
-{TOKEN(XORASN)}
+#line 45 "scan.l"
+{return(XORASN);}
 	YY_BREAK
 case 26:
 YY_RULE_SETUP
-#line 50 "scan.l"
-{TOKEN(ORASN)}
+#line 46 "scan.l"
+{return(ORASN);}
 	YY_BREAK
 case 27:
 YY_RULE_SETUP
-#line 52 "scan.l"
-{TOKEN(DUMP)}
+#line 48 "scan.l"
+{return(DUMP);}
 	YY_BREAK
 case 28:
 YY_RULE_SETUP
-#line 53 "scan.l"
-{TOKEN(CLEAR)}
+#line 49 "scan.l"
+{return(CLEAR);}
 	YY_BREAK
 case 29:
 YY_RULE_SETUP
-#line 55 "scan.l"
-{
-  PRINT_TEXT
-	yylval.var = yytext[0];
-	return(VAR);
-}
+#line 51 "scan.l"
+{yylval.var = yytext[0]; return(VAR);}
 	YY_BREAK
 case 30:
 YY_RULE_SETUP
-#line 61 "scan.l"
-{
-  PRINT_TEXT
-	yylval.num = strtol(yytext, NULL, 10);
-	return(NUM);
-}
+#line 53 "scan.l"
+{yylval.num = strtol(yytext, NULL, 10); return(NUM);}
 	YY_BREAK
 case 31:
 YY_RULE_SETUP
-#line 67 "scan.l"
+#line 55 "scan.l"
 ECHO;
 	YY_BREAK
-#line 928 "lex.yy.c"
+#line 916 "lex.yy.c"
 case YY_STATE_EOF(INITIAL):
 	yyterminate();
 
@@ -1925,4 +1913,4 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 67 "scan.l"
+#line 55 "scan.l"

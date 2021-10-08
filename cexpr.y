@@ -4,18 +4,15 @@
 #include <string.h>
 
 int yylex();
-
-int VERBOSE;
-
-
-long VARS[26];
+int VARS[26];
+int ERROR = 0;
 
 #define VALUE(c)   (VARS[(c) - 'a'])
 %}
 
 %union {
 	char  var;
-	long  num;
+	int   num;
   char *str;
 }
 
@@ -32,45 +29,137 @@ long VARS[26];
 %token DUMP
 %token CLEAR
 
-%type <num> expr
+%type <num> var
+%type <num> expr, par_expr, not_expr, neg_expr
+%type <num> mdr_expr, as_expr, lrs_expr, and_expr, xor_expr, or_expr
 
 %%
 
-line : expr TERM             
-     | line expr TERM
-     ;
-expr : VAR                  { $$ = VALUE($1); }
-     | NUM                  { $$ = $1; }
-     | DUMP                 { dump(); }
-     | CLEAR                { clear(); }
-     | LPAREN expr RPAREN   { $$ = $2; }
-     | expr ADD expr        { $$ = $1 + $3; }
-     | expr SUB expr        { $$ = $1 - $3; }
-     | SUB expr             { $$ = -$2; }
-     | expr MULT expr       { $$ = $1 * $3; }
-     | expr DIV expr        { if ($3) $$ = $1 / $3; else fprintf(stderr, "Divide by zero error\n"); }
-     | expr REM expr        { $$ = $1 % $3; }
-     | NOT expr             { $$ = ~$2; }
-     | expr LS expr         { $$ = $1 << $3; }
-     | expr RS expr         { $$ = $1 >> $3; }
-     | expr AND expr        { $$ = $1 & $3; }
-     | expr XOR expr        { $$ = $1 ^ $3; }
-     | expr OR expr         { $$ = $1 | $3; }
-     | VAR ASN expr         {printf("%li\n", $$ = VALUE($1) =  $3);}
-     | VAR INC expr         {printf("%li\n", $$ = VALUE($1) += $3);}
-     | VAR DEC expr         {printf("%li\n", $$ = VALUE($1) -= $3);}
-     | VAR MULTASN expr     {printf("%li\n", $$ = VALUE($1) *= $3);}
-     | VAR DIVASN expr      {if ($3) printf("%li\n", $$ = VALUE($1) /= $3); else printf("Divide by zero error\n");}
-     | VAR REMASN expr      {printf("%li\n", $$ = VALUE($1) %=  $3);}
-     | VAR LSASN expr       {printf("%li\n", $$ = VALUE($1) <<= $3);} 
-     | VAR RSASN expr       {printf("%li\n", $$ = VALUE($1) >>= $3);}
-     | VAR ANDASN expr      {printf("%li\n", $$ = VALUE($1) &=  $3);}
-     | VAR XORASN expr      {printf("%li\n", $$ = VALUE($1) ^=  $3);}
-     | VAR ORASN expr       {printf("%li\n", $$ = VALUE($1) |=  $3);}
-     ;
-
+line     : expr       TERM {if (!ERROR) printf("%d\n", $1); else ERROR = 0;}            
+         | line expr  TERM {if (!ERROR) printf("%d\n", $2); else ERROR = 0;}
+         | line DUMP  TERM {dump(); }
+         | line CLEAR TERM {clear();}
+         ;
+expr     : or_expr
+         | xor_expr
+         | and_expr
+         | lrs_expr
+         | as_expr
+         | mdr_expr
+         | neg_expr
+         | not_expr
+         | par_expr
+         | VAR ASN     expr {$$ = VALUE($1) =   $3;               }
+         | VAR INC     expr {$$ = VALUE($1) +=  $3;               }
+         | VAR DEC     expr {$$ = VALUE($1) -=  $3;               }
+         | VAR MULTASN expr {$$ = VALUE($1) = mult(VALUE($1), $3);}
+         | VAR DIVASN  expr {$$ = VALUE($1) = idiv(VALUE($1), $3);}
+         | VAR REMASN  expr {$$ = VALUE($1) %=  $3;               }
+         | VAR ANDASN  expr {$$ = VALUE($1) &=  $3;               }
+         | VAR XORASN  expr {$$ = VALUE($1) ^=  $3;               }
+         | VAR ORASN   expr {$$ = VALUE($1) |=  $3;               }
+         | VAR LSASN   expr {$$ = VALUE($1) <<= $3;               }
+         | VAR RSASN   expr {$$ = VALUE($1) >>= $3;               }
+         | var
+         | NUM
+         ;
+or_expr  : xor_expr
+         | and_expr
+         | lrs_expr
+         | as_expr
+         | mdr_expr
+         | neg_expr
+         | not_expr
+         | par_expr
+         | or_expr OR or_expr {$$ = $1 | $3;  }
+         | var
+         | NUM
+         ;
+xor_expr : and_expr
+         | lrs_expr
+         | as_expr
+         | mdr_expr
+         | neg_expr
+         | not_expr
+         | par_expr
+         | xor_expr XOR xor_expr {$$ = $1 ^ $3;  }
+         | var
+         | NUM
+         ;
+and_expr : lrs_expr
+         | as_expr
+         | mdr_expr
+         | neg_expr
+         | not_expr
+         | par_expr
+         | and_expr AND and_expr {$$ = $1 & $3;  }
+         | var
+         | NUM
+         ;
+lrs_expr : as_expr
+         | mdr_expr
+         | neg_expr
+         | not_expr
+         | par_expr
+         | lrs_expr LS lrs_expr {$$ = $1 << $3; }
+         | lrs_expr RS lrs_expr {$$ = $1 >> $3; }
+         | var
+         | NUM
+         ;
+as_expr  : mdr_expr
+         | neg_expr
+         | not_expr
+         | par_expr
+         | as_expr ADD as_expr {$$ = $1 + $3; }
+         | as_expr SUB as_expr {$$ = $1 - $3; }
+         | var
+         | NUM
+         ;
+mdr_expr : neg_expr
+         | not_expr
+         | par_expr
+         | mdr_expr MULT mdr_expr {$$ = mult($1, $3);}
+         | mdr_expr DIV  mdr_expr {$$ = idiv($1, $3);}
+         | mdr_expr REM  mdr_expr {$$ = $1 % $3;    }
+         | var
+         | NUM
+         ;
+neg_expr : not_expr
+         | par_expr
+         | SUB neg_expr {$$ = -$2;}
+         | var
+         | NUM
+         ;
+not_expr : par_expr
+         | NOT not_expr {$$ = ~$2;}
+         | var
+         | NUM
+         ;
+par_expr : LPAREN par_expr RPAREN {$$ = $2;}
+         | var
+         | NUM
+         ;
+var      : VAR {$$ = VALUE($1);}
+         ;
 %%
 
+int mult(int a, int b) {
+  long result = (long) a * (long) b;
+  if (result >> sizeof(int) * 8) {
+    printf("overflow\n");
+    ERROR = 1;
+  }
+  return (int) result;
+}
+
+int idiv(int a, int b) {
+  if (b)
+    return a / b;
+
+  printf("dividebyzero\n");
+  ERROR = 1;
+  return 0;
+}
 
 void dump() {
   int i;
@@ -87,26 +176,12 @@ void clear() {
 }
 
 int main(int argc, char **argv) {
-  if (argc == 2) {
-    if (strcmp(argv[1], "-v")) {
-      fprintf(stderr, "Unknown option '%s'\n", argv[1]);
-      return 1;
-    }
-    VERBOSE = 1;
-  }
-  else if (argc == 1)
-    VERBOSE = 0;
-  else {
-    fprintf(stderr, "%d arguments given in excess\n", 4 - argc);
-    return 1;
-  }
-
   if (yyparse()) {
     fprintf(stderr, "Invalid syntax\n");
     return 1;
   }
   
-  printf("Exiting\n");
+  printf("Calculator off.\n");
   return 0;
 }
 
